@@ -86,12 +86,12 @@ def save_landmarks(opt):
                                     print(f"\nError in landmark detection for image: {img_path}")
                                     print("Error details:", e)
                                     break
-
-                                # 保存坐标到 CSV 文件
                                 rows_landmark.append(x_list + y_list)
+                                tq.update()  # 更新进度条
+                            # 保存坐标到 CSV 文件
 
                             record_csv(csv_landmark_path, rows_landmark)
-                            tq.update(len(img_path_list))  # 更新进度条
+
     print('Landmark extraction completed.')
 
 
