@@ -1,0 +1,17 @@
+dataset: "casme_sq"
+casme_sq:
+  dataset: "casme_sq"
+  CASME_sq_rawpic_root_path: "/kaggle/input/casme-sq/rawpic/rawpic"  # 所有图片帧
+  rawpic_crop_root_path: "/kaggle/working/rawpic_crop_no_resize"  # 已裁剪的图片
+  rawpic_croped_root_path: "/kaggle/input/rawpic_crop_no_resize"  # 已裁剪的图片 目录中含有关键点文件
+  optflow_xy_root_path: "/kaggle/working/optflow_xy"
+  optflow_ma_root_path: "/kaggle/working/optflow_ma"
+  optflow_uv_root_path: "/kaggle/working/optflow_uv"
+  feature_root_path: "/kaggle/working/casme-sq/feature_apex"
+  feature_segment_root_path:  "/kaggle/working/casme-sq/feature_segment_apex"
+  SEGMENT_LENGTH: 256
+  RECEPTIVE_FILED: 15 # should be odd
+  face_detector_model_path : "/kaggle/input/dlib-model/mmod_human_face_detector.dat"  # 人脸检测模型
+  landmark_predictor_model_path: "/kaggle/input/dlib-model/shape_predictor_68_face_landmarks.dat"
+
+
