@@ -7,7 +7,7 @@ import csv
 from pathlib import Path
 import os
 
-
+print(dlib.DLIB_USE_CUDA)  # 输出 True 则表示启用了 GPU 支持
 
 
 def get_img_count(cropped_root_path):
