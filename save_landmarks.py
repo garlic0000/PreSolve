@@ -89,7 +89,6 @@ def save_landmarks(opt):
                                 rows_landmark.append(x_list + y_list)
                                 tq.update()  # 更新进度条
                             # 保存坐标到 CSV 文件
-
                             record_csv(csv_landmark_path, rows_landmark)
 
     print('Landmark extraction completed.')
