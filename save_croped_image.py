@@ -112,10 +112,10 @@ def crop_images(opt):
                     # 关于casme_030_0505这部分 检测到人脸的部分是正常的 没检测到的部分是头部发生了偏移
                     # 由于统一裁剪导致的 未检测到人脸的图片中 左边几乎有一半的人脸在外面 可能需要加一些
                     if v_name == "casme_030_0505":
-                        face_left = face_left - 60
+                        face_left = face_left - 40
                     # 关于casme_026_0101这部分 右边多裁剪了一部分 在右边增加一些
                     if v_name == "casme_026_0101":
-                        face_right = face_right + 10
+                        face_right = face_right + 5
                     face = image[face_top:face_bottom, face_left:face_right]  # 裁剪人脸区域
                     # 不调整尺寸
                     # face = cv2.resize(face, (128, 128))  # 调整尺寸为 128x128
