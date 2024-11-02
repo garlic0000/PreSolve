@@ -41,7 +41,7 @@ def save_landmarks(opt):
     face_pose_predictor = dlib.shape_predictor(landmark_predictor_model_path)
     sum_count = get_img_count(rawpic_crop_root_path)
     print("Total image count:", sum_count)
-
+    failed_detections = []
     with tqdm(total=sum_count) as tq:  # 进度条
         for sub in Path(rawpic_crop_root_path).iterdir():
             if sub.is_dir():
@@ -66,6 +66,7 @@ def save_landmarks(opt):
                                     detect = face_detector(img, 1)
                                     if len(detect) == 0:
                                         print(f"该图片检测不到人脸: {img_path}")
+                                        failed_detections.append(img_path)
                                         continue  # 跳过当前图片并继续
 
                                     shape = face_pose_predictor(img, detect[0].rect)
@@ -92,6 +93,15 @@ def save_landmarks(opt):
                             record_csv(csv_landmark_path, rows_landmark)
 
     print('Landmark extraction completed.')
+    # 统计各目录中的失败文件
+    failed_dir_counts = {}
+    for path in failed_detections:
+        directory = os.path.dirname(path)
+        failed_dir_counts[directory] = failed_dir_counts.get(directory, 0) + 1
+
+    # 输出检测失败图片较多的目录
+    for dir_path, count in sorted(failed_dir_counts.items(), key=lambda x: x[1], reverse=True):
+        print(f"Directory: {dir_path}, Failed detections: {count}")
 
 
 # 示例主函数调用
