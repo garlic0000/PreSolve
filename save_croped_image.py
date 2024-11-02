@@ -80,8 +80,6 @@ def crop_images(opt):
             for vid in sub.iterdir():
                 if not vid.is_dir():
                     continue
-                print()  # 输出一个空行
-                print("Video", vid.name)
                 # 为每段视频创建目录
                 v_name = "casme_0{}".format(vid.name[0:7])
                 dir_crop_sub_vid = os.path.join(dir_crop_sub, v_name)
@@ -99,6 +97,8 @@ def crop_images(opt):
                 # 例如，按自然顺序，img2.jpg 会排在 img10.jpg 前面，而不是后面。
                 dir_crop_sub_vid_img_list = glob.glob(os.path.join(str(vid), "*.jpg"))
                 # 读取每张图片
+                print()  # 输出一个空行
+                print("Video", vid.name)
                 for dir_crop_sub_vid_img in natsort.natsorted(dir_crop_sub_vid_img_list):
                     img = os.path.basename(dir_crop_sub_vid_img)  # 获取文件名，例如 'img001.jpg'
                     img_name = img[3:-4]  # 获取 '001'
