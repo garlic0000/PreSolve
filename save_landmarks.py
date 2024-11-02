@@ -103,19 +103,25 @@ def save_landmarks(opt):
     # 输出检测失败图片较多的目录并显示图片
     for dir_path, count in sorted(failed_dir_counts.items(), key=lambda x: x[1], reverse=True):
         print(f"Directory: {dir_path}, Failed detections: {count}")
-        failed_images_in_dir = [img for img in failed_detections if os.path.dirname(img) == dir_path]
+        # 设置多图显示
+    num_images = len(failed_detections)
+    cols = 4  # 每行显示 4 张图片
+    rows = (num_images + cols - 1) // cols  # 行数
+    plt.figure(figsize=(15, rows * 4))
 
-        # 使用 plt 显示每张检测失败的图片
-        for img_path in failed_images_in_dir:
-            img = cv2.imread(img_path)
-            if img is not None:
-                img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                plt.imshow(img_rgb)
-                plt.title(f"Failed in {dir_path}")
-                plt.axis("off")
-                plt.show()
-            else:
-                print(f"无法读取图片：{img_path}")
+    for i, img_path in enumerate(failed_detections):
+        img = cv2.imread(img_path)
+        if img is not None:
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            plt.subplot(rows, cols, i + 1)
+            plt.imshow(img_rgb)
+            plt.title(f"Failed in {os.path.dirname(img_path)}")
+            plt.axis("off")
+        else:
+            print(f"无法读取图片：{img_path}")
+
+    plt.tight_layout()
+    plt.show()
 
 
 # 示例主函数调用
