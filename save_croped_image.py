@@ -70,9 +70,8 @@ def crop_images(opt):
             #                 v_name = "casme_0{}".format(type_item.name[0:7])
             s_name = "casme_0{}".format(sub.name[1:])
             dir_crop_sub = os.path.join(rawpic_crop_root_path, s_name)
-            if os.path.exists(dir_crop_sub):
-                shutil.rmtree(dir_crop_sub)
-            os.mkdir(dir_crop_sub)
+            if not os.path.exists(dir_crop_sub):
+                os.mkdir(dir_crop_sub)
             print()  # 输出一个空行
             print('Subject', sub.name)
             for vid in sub.iterdir():
@@ -83,9 +82,8 @@ def crop_images(opt):
                 # 为每段视频创建目录
                 v_name = "casme_0{}".format(vid.name[0:7])
                 dir_crop_sub_vid = os.path.join(dir_crop_sub, v_name)
-                if os.path.exists(dir_crop_sub_vid):
-                    shutil.rmtree(dir_crop_sub_vid)
-                os.mkdir(dir_crop_sub_vid)
+                if not os.path.exists(dir_crop_sub_vid):
+                    os.mkdir(dir_crop_sub_vid)
                 # natsort 是一个第三方库，用于执行“自然排序”，
                 # 也就是按人类习惯的方式进行排序。
                 # 例如，按自然顺序，img2.jpg 会排在 img10.jpg 前面，而不是后面。
