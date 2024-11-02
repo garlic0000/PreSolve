@@ -6,7 +6,6 @@ import glob
 import csv
 from pathlib import Path
 import os
-import matplotlib.pyplot as plt
 
 print(dlib.DLIB_USE_CUDA)  # 输出 True 则表示启用了 GPU 支持
 
