@@ -4,3 +4,4 @@ pyyaml
 natsort
 numpy
 pandas
+matplotlib
