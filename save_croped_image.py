@@ -120,8 +120,6 @@ def crop_images(opt):
                     # 关于casme_026_0101这部分 右边多裁剪了一部分 在右边增加一些
                     if v_name == "casme_026_0101":
                         face_right = face_right + 2
-                        print("face_right")
-                        print(face_right)
                     face = image[face_top:face_bottom, face_left:face_right]  # 裁剪人脸区域
                     # 不调整尺寸
                     # face = cv2.resize(face, (128, 128))  # 调整尺寸为 128x128
