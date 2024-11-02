@@ -26,6 +26,9 @@ def get_rawpic_count(root_path):
         if sub.is_dir():
             for vid in sub.iterdir():
                 if vid.is_dir():
+                    if vid.name == "30_0505funnyinnovations":
+                        # 30_0505funnyinnovations的裁剪有问题
+                        continue
                     count += len(glob.glob(os.path.join(
                         str(vid), "*.jpg")))
     return count
