@@ -1,9 +1,9 @@
 dataset: "casme_sq"
 casme_sq:
   dataset: "casme_sq"
-#  CASME_sq_rawpic_root_path: "/kaggle/input/casme-sq/rawpic/rawpic"  # 所有图片帧
-  # 测试用
-  CASME_sq_rawpic_root_path: "/kaggle/working/rawpic"  # 所有图片帧
+  CASME_sq_rawpic_root_path: "/kaggle/input/casme-sq/rawpic/rawpic"  # 所有图片帧
+#  # 测试用
+#  CASME_sq_rawpic_root_path: "/kaggle/working/rawpic"  # 所有图片帧
   rawpic_crop_root_path: "/kaggle/working/rawpic_crop_no_resize"  # 已裁剪的图片
   rawpic_croped_root_path: "/kaggle/input/rawpic-crop-no-resize"  # 已裁剪的图片 目录中含有关键点文件
   optflow_xy_root_path: "/kaggle/working/optflow_xy"
