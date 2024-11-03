@@ -26,9 +26,9 @@ def get_rawpic_count(root_path):
         if sub.is_dir():
             for vid in sub.iterdir():
                 if vid.is_dir():
-                    if vid.name == "30_0505funnyinnovations":
-                        # 30_0505funnyinnovations的裁剪有问题
-                        continue
+                    # if vid.name == "30_0505funnyinnovations":
+                    #     # 30_0505funnyinnovations的裁剪有问题
+                    #     continue
                     count += len(glob.glob(os.path.join(
                         str(vid), "*.jpg")))
     return count
@@ -85,13 +85,13 @@ def crop_images(opt):
                 dir_crop_sub_vid = os.path.join(dir_crop_sub, v_name)
                 if not os.path.exists(dir_crop_sub_vid):
                     os.mkdir(dir_crop_sub_vid)
-                if opt["dataset"] == "casme_sq" and v_name == "casme_030_0505":
-                    # 30_0505funnyinnovations的裁剪有问题
-                    # 把vid目录下的图片全部复制到dir_crop_sub_vid目录下
-                    # 不包括vid目录本身
-                    shutil.copytree(
-                        str(vid), dir_crop_sub_vid, dirs_exist_ok=True)
-                    continue
+                # if opt["dataset"] == "casme_sq" and v_name == "casme_030_0505":
+                #     # 30_0505funnyinnovations的裁剪有问题
+                #     # 把vid目录下的图片全部复制到dir_crop_sub_vid目录下
+                #     # 不包括vid目录本身
+                #     shutil.copytree(
+                #         str(vid), dir_crop_sub_vid, dirs_exist_ok=True)
+                #     continue
                 # natsort 是一个第三方库，用于执行“自然排序”，
                 # 也就是按人类习惯的方式进行排序。
                 # 例如，按自然顺序，img2.jpg 会排在 img10.jpg 前面，而不是后面。
@@ -119,7 +119,8 @@ def crop_images(opt):
                         # 可能需要进行填充
                         # 关于casme_030_0505这部分 检测到人脸的部分是正常的 没检测到的部分是头部发生了偏移
                         # 由于统一裁剪导致的 未检测到人脸的图片中 左边几乎有一半的人脸在外面 可能需要加一些
-                        # 直接复制 不进行裁剪
+                        if v_name == "casme_030_0505":
+                            face_right = face_left - 100
                         # 关于casme_026_0101这部分 右边多裁剪了一部分 在右边增加一些
                         if v_name == "casme_026_0101":
                             face_right = face_right + 2
