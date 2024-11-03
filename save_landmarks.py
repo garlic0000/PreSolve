@@ -93,6 +93,7 @@ def save_landmarks(opt):
                             record_csv(csv_landmark_path, rows_landmark)
 
     print('Landmark extraction completed.')
+    # 测试用
     # 统计各目录中的失败文件
     failed_dir_counts = {}
     for path in failed_detections:
