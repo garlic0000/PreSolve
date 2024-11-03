@@ -22,7 +22,7 @@ def get_flow_count(root_path):
 
 
 def feature(opt):
-    optflow_root_path = opt["optflow_root_path"]
+    optflow_root_path = opt["optflow_uv_root_path"]
     feature_root_path = opt["feature_root_path"]
     landmark_root_path = opt["cropped_root_path"]
     print(f'dataset: {opt["dataset"]}')

@@ -46,7 +46,7 @@ def calculate_tvl1_optical_flow(frame1, frame2):
     return flow
 
 
-def save_flow_to_image(flow, paths, sub_name, vid_name, frame_index):
+def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, frame_index):
     """
     保存光流图片 供下一步分析
     Args:
@@ -58,15 +58,9 @@ def save_flow_to_image(flow, paths, sub_name, vid_name, frame_index):
 
     """
     # 保存路径
-    optflow_xy_root_path, optflow_ma_root_path, optflow_uv_root_path = paths
-    savepath_xy = os.path.join(optflow_xy_root_path, sub_name, vid_name)
-    savepath_ma = os.path.join(optflow_ma_root_path, sub_name, vid_name)
+    optflow_uv_root_path = optflow_root_path
     savepath_uv = os.path.join(optflow_uv_root_path, sub_name, vid_name)
 
-    if not os.path.exists(savepath_xy):
-        os.makedirs(savepath_xy)
-    if not os.path.exists(savepath_ma):
-        os.makedirs(savepath_ma)
     if not os.path.exists(savepath_uv):
         os.makedirs(savepath_uv)
 
@@ -74,24 +68,6 @@ def save_flow_to_image(flow, paths, sub_name, vid_name, frame_index):
     magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
     # 转换成直角坐标
     u, v = pol2cart(magnitude, angle)
-
-    # 将 flow[..., 0] 和 flow[..., 1] 归一化并转换为灰度图
-    x_flow_norm = cv2.normalize(flow[..., 0], None, 0, 255, cv2.NORM_MINMAX)
-    y_flow_norm = cv2.normalize(flow[..., 1], None, 0, 255, cv2.NORM_MINMAX)
-    gray_x_flow = x_flow_norm.astype(np.uint8)
-    gray_y_flow = y_flow_norm.astype(np.uint8)
-    # 保存为图像文件
-    cv2.imwrite(os.path.join(savepath_xy, f"flow_x_{frame_index:05d}.jpg"), gray_x_flow)
-    cv2.imwrite(os.path.join(savepath_xy, f"flow_y_{frame_index:05d}.jpg"), gray_y_flow)
-
-    # 生成 magnitude angle 灰度图
-    magnitude_norm = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
-    angle_norm = cv2.normalize(angle, None, 0, 255, cv2.NORM_MINMAX)
-    gray_magnitude = magnitude_norm.astype(np.uint8)
-    gray_angle = angle_norm.astype(np.uint8)
-    # 保存为图像文件
-    cv2.imwrite(os.path.join(savepath_ma, f"flow_x_{frame_index:05d}.jpg"), gray_magnitude)
-    cv2.imwrite(os.path.join(savepath_ma, f"flow_y_{frame_index:05d}.jpg"), gray_angle)
 
     # 将 u 和 v 归一化并转换为灰度图
     u_norm = cv2.normalize(u, None, 0, 255, cv2.NORM_MINMAX)
@@ -103,7 +79,64 @@ def save_flow_to_image(flow, paths, sub_name, vid_name, frame_index):
     cv2.imwrite(os.path.join(savepath_uv, f"flow_y_{frame_index:05d}.jpg"), gray_v)
 
 
-def process_optical_flow_for_dir(input_dir, paths, sub_name, vid_name):
+# def save_flow_to_image(flow, paths, sub_name, vid_name, frame_index):
+#     """
+#     保存光流图片 供下一步分析
+#     Args:
+#         flow: 提取的原始光流
+#         savepaths: 保存路径集合
+#         frame_index: 帧编号
+#
+#     Returns:
+#
+#     """
+#     # 保存路径
+#     optflow_xy_root_path, optflow_ma_root_path, optflow_uv_root_path = paths
+#     savepath_xy = os.path.join(optflow_xy_root_path, sub_name, vid_name)
+#     savepath_ma = os.path.join(optflow_ma_root_path, sub_name, vid_name)
+#     savepath_uv = os.path.join(optflow_uv_root_path, sub_name, vid_name)
+#
+#     if not os.path.exists(savepath_xy):
+#         os.makedirs(savepath_xy)
+#     if not os.path.exists(savepath_ma):
+#         os.makedirs(savepath_ma)
+#     if not os.path.exists(savepath_uv):
+#         os.makedirs(savepath_uv)
+#
+#     # 转换为极坐标
+#     magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
+#     # 转换成直角坐标
+#     u, v = pol2cart(magnitude, angle)
+#
+#     # 将 flow[..., 0] 和 flow[..., 1] 归一化并转换为灰度图
+#     x_flow_norm = cv2.normalize(flow[..., 0], None, 0, 255, cv2.NORM_MINMAX)
+#     y_flow_norm = cv2.normalize(flow[..., 1], None, 0, 255, cv2.NORM_MINMAX)
+#     gray_x_flow = x_flow_norm.astype(np.uint8)
+#     gray_y_flow = y_flow_norm.astype(np.uint8)
+#     # 保存为图像文件
+#     cv2.imwrite(os.path.join(savepath_xy, f"flow_x_{frame_index:05d}.jpg"), gray_x_flow)
+#     cv2.imwrite(os.path.join(savepath_xy, f"flow_y_{frame_index:05d}.jpg"), gray_y_flow)
+#
+#     # 生成 magnitude angle 灰度图
+#     magnitude_norm = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
+#     angle_norm = cv2.normalize(angle, None, 0, 255, cv2.NORM_MINMAX)
+#     gray_magnitude = magnitude_norm.astype(np.uint8)
+#     gray_angle = angle_norm.astype(np.uint8)
+#     # 保存为图像文件
+#     cv2.imwrite(os.path.join(savepath_ma, f"flow_x_{frame_index:05d}.jpg"), gray_magnitude)
+#     cv2.imwrite(os.path.join(savepath_ma, f"flow_y_{frame_index:05d}.jpg"), gray_angle)
+#
+#     # 将 u 和 v 归一化并转换为灰度图
+#     u_norm = cv2.normalize(u, None, 0, 255, cv2.NORM_MINMAX)
+#     v_norm = cv2.normalize(v, None, 0, 255, cv2.NORM_MINMAX)
+#     gray_u = u_norm.astype(np.uint8)
+#     gray_v = v_norm.astype(np.uint8)
+#     # 保存为图像文件
+#     cv2.imwrite(os.path.join(savepath_uv, f"flow_x_{frame_index:05d}.jpg"), gray_u)
+#     cv2.imwrite(os.path.join(savepath_uv, f"flow_y_{frame_index:05d}.jpg"), gray_v)
+
+
+def process_optical_flow_for_dir(input_dir, optflow_root_path, sub_name, vid_name):
     """
     为一个路径下的图片帧计算光流
     每相邻两帧计算一次光流
@@ -125,7 +158,7 @@ def process_optical_flow_for_dir(input_dir, paths, sub_name, vid_name):
     for i in range(1, len(image_list)):
         frame = cv2.imread(image_list[i], cv2.IMREAD_GRAYSCALE)
         flow = calculate_tvl1_optical_flow(prev_frame, frame)
-        save_flow_to_image(flow, paths, sub_name, vid_name, frame_index)
+        save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, frame_index)
         frame_index += 1
         prev_frame = frame
 
@@ -155,18 +188,18 @@ def optflow(opt):
 
     """
     rawpic_croped_root_path = opt["rawpic_croped_root_path"]
-    optflow_xy_root_path = opt["optflow_xy_root_path"]
-    optflow_ma_root_path = opt["optflow_ma_root_path"]
+    # optflow_xy_root_path = opt["optflow_xy_root_path"]
+    # optflow_ma_root_path = opt["optflow_ma_root_path"]
     optflow_uv_root_path = opt["optflow_uv_root_path"]
     print(f'dataset: {opt["dataset"]}')
-    if not os.path.exists(optflow_xy_root_path):
-        os.makedirs(optflow_xy_root_path)
-    if not os.path.exists(optflow_ma_root_path):
-        os.makedirs(optflow_ma_root_path)
+    # if not os.path.exists(optflow_xy_root_path):
+    #     os.makedirs(optflow_xy_root_path)
+    # if not os.path.exists(optflow_ma_root_path):
+    #     os.makedirs(optflow_ma_root_path)
     if not os.path.exists(optflow_uv_root_path):
         os.makedirs(optflow_uv_root_path)
-    paths = optflow_xy_root_path, optflow_ma_root_path, optflow_uv_root_path
 
+    optflow_root_path = optflow_uv_root_path
     dir_count = get_rawpic_crop_count(rawpic_croped_root_path)
     print("flow count = ", dir_count)
 
@@ -177,7 +210,7 @@ def optflow(opt):
                     if vid.is_dir():
                         print()
                         print(f"Processing optical flow for {vid}")
-                        process_optical_flow_for_dir(str(vid), paths, sub.name, vid.name)
+                        process_optical_flow_for_dir(str(vid), optflow_root_path, sub.name, vid.name)
                         tq.update()
 
 
