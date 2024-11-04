@@ -9,8 +9,11 @@ casme_sq:
   optflow_xy_root_path: "/kaggle/working/optflow_xy"
   optflow_ma_root_path: "/kaggle/working/optflow_ma"
   optflow_uv_root_path: "/kaggle/working/optflow_uv"
-  feature_root_path: "/kaggle/working/casme-sq/feature_apex"
-  feature_segment_root_path:  "/kaggle/working/casme-sq/feature_segment_apex"
+  optflowed_uv_root_path: "/kaggle/input/optflow-uv"
+  feature_root_path: "/kaggle/working/feature_apex"
+  feature_segment_root_path:  "/kaggle/working/feature_segment_apex"
+  anno_csv_path: "/kaggle/working/CAS(ME)2.csv"
+  code_final_path: "/kaggle/input/casme-sq/CAS(ME)2code_final.xlsx"
   SEGMENT_LENGTH: 256
   RECEPTIVE_FILED: 15 # should be odd
   face_detector_model_path : "/kaggle/input/dlib-model/mmod_human_face_detector.dat"  # 人脸检测模型

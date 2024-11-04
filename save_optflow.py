@@ -46,7 +46,7 @@ def calculate_tvl1_optical_flow(frame1, frame2):
     return flow
 
 
-def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, frame_index):
+def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, i):
     """
     保存光流图片 供下一步分析
     Args:
@@ -75,11 +75,11 @@ def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, frame_index)
     gray_u = u_norm.astype(np.uint8)
     gray_v = v_norm.astype(np.uint8)
     # 保存为图像文件
-    cv2.imwrite(os.path.join(savepath_uv, f"flow_x_{frame_index:05d}.jpg"), gray_u)
-    cv2.imwrite(os.path.join(savepath_uv, f"flow_y_{frame_index:05d}.jpg"), gray_v)
+    cv2.imwrite(os.path.join(savepath_uv, f"flow_x_{i:05d}.jpg"), gray_u)
+    cv2.imwrite(os.path.join(savepath_uv, f"flow_y_{i:05d}.jpg"), gray_v)
 
 
-# def save_flow_to_image(flow, paths, sub_name, vid_name, frame_index):
+# def save_flow_to_image(flow, paths, sub_name, vid_name, i):
 #     """
 #     保存光流图片 供下一步分析
 #     Args:
@@ -152,14 +152,12 @@ def process_optical_flow_for_dir(input_dir, optflow_root_path, sub_name, vid_nam
         print(f"Not enough images in {input_dir} to compute optical flow")
         return
 
-    frame_index = 0
     prev_frame = cv2.imread(image_list[0], cv2.IMREAD_GRAYSCALE)
 
     for i in range(1, len(image_list)):
         frame = cv2.imread(image_list[i], cv2.IMREAD_GRAYSCALE)
         flow = calculate_tvl1_optical_flow(prev_frame, frame)
-        save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, frame_index)
-        frame_index += 1
+        save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, i)
         prev_frame = frame
 
 

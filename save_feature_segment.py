@@ -6,12 +6,16 @@ from pathlib import Path
 import yaml
 import numpy as np
 import pandas as pd
+from xlsx_to_csv import parse_code_final
 
 
 def segment_for_train(opt):
     feature_root_path = opt["feature_root_path"]
     feature_segment_root_path = opt["feature_segment_root_path"]
+    code_final_path = opt["code_final_path"]
     anno_csv_path = opt["anno_csv_path"]
+    parse_code_final(code_final_path, anno_csv_path)
+
     SEGMENT_LENGTH = opt["SEGMENT_LENGTH"]  # 256帧
     RECEPTIVE_FILED = opt["RECEPTIVE_FILED"]  # 感受野 15？ 用来决定每个片段的步长
     STEP = int(RECEPTIVE_FILED // 2)
