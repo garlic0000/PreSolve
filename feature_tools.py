@@ -1,10 +1,6 @@
 import math
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 import cv2
-
-import torch
 
 
 def get_top_optical_flows(optflows, percent):
