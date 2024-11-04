@@ -317,7 +317,7 @@ def calculate_roi_freature_list(flow, landmarks, radius):
     assert flow.dtype == np.float32, (
         "element type of optflow should be float32")
     # 使用原始光流 暂时进行注释
-    # assert np.max(flow) <= 1, "max value shoued be less than 1"
+    assert np.max(flow) <= 1, "max value shoued be less than 1"
 
     roi_flows = get_rois(
         flow, landmarks,
@@ -335,6 +335,10 @@ def calculate_roi_freature_list(flow, landmarks, radius):
     global_optflow_vector = cal_global_optflow_vector(flow, landmarks)
     # 通过从提取的 ROI 光流中减去全局光流向量，来调整局部光流数据，以消除全局运动的影响
     roi_flows_adjust = roi_flows - global_optflow_vector
+    print("sdfsd")
+    print(roi_flows.shape)
+    print("dddd")
+    print(global_optflow_vector.shape)
     roi_feature_list = []  # feature in face
     for roi_flow in roi_flows_adjust:
         roi_main_direction_flow = get_main_direction_flow(
