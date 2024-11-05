@@ -46,37 +46,75 @@ def calculate_tvl1_optical_flow(frame1, frame2):
     return flow
 
 
-def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, i):
+# def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, i):
+#     """
+#     保存光流图片 供下一步分析
+#     Args:
+#         flow: 提取的原始光流
+#         savepaths: 保存路径集合
+#         frame_index: 帧编号
+#
+#     Returns:
+#
+#     """
+#     # 保存路径
+#     optflow_uv_root_path = optflow_root_path
+#     savepath_uv = os.path.join(optflow_uv_root_path, sub_name, vid_name)
+#
+#     if not os.path.exists(savepath_uv):
+#         os.makedirs(savepath_uv)
+#
+#     # 转换为极坐标
+#     magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
+#     # 转换成直角坐标
+#     u, v = pol2cart(magnitude, angle)
+#
+#     # 将 u 和 v 归一化并转换为灰度图
+#     u_norm = cv2.normalize(u, None, 0, 255, cv2.NORM_MINMAX)
+#     v_norm = cv2.normalize(v, None, 0, 255, cv2.NORM_MINMAX)
+#     gray_u = u_norm.astype(np.uint8)
+#     gray_v = v_norm.astype(np.uint8)
+#     # 保存为图像文件
+#     cv2.imwrite(os.path.join(savepath_uv, f"flow_x_{i:05d}.jpg"), gray_u)
+#     cv2.imwrite(os.path.join(savepath_uv, f"flow_y_{i:05d}.jpg"), gray_v)
+
+def save_flow_to_image(flow, optflow_root_path, sub_name, vid_name, i, bound=20):
     """
-    保存光流图片 供下一步分析
+    保存光流图片供下一步分析
     Args:
-        flow: 提取的原始光流
-        savepaths: 保存路径集合
-        frame_index: 帧编号
+        flow: 提取的原始光流，shape 为 (H, W, 2)
+        optflow_root_path: 光流保存的根路径
+        sub_name: 子文件夹名称
+        vid_name: 视频名称
+        i: 帧编号
+        bound: 用于光流归一化的边界值
 
     Returns:
-
+        None
     """
     # 保存路径
-    optflow_uv_root_path = optflow_root_path
-    savepath_uv = os.path.join(optflow_uv_root_path, sub_name, vid_name)
+    optflow_xy_root_path = optflow_root_path
+    savepath_xy = os.path.join(optflow_xy_root_path, sub_name, vid_name)
 
-    if not os.path.exists(savepath_uv):
-        os.makedirs(savepath_uv)
+    if not os.path.exists(savepath_xy):
+        os.makedirs(savepath_xy)
 
-    # 转换为极坐标
-    magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-    # 转换成直角坐标
-    u, v = pol2cart(magnitude, angle)
+    # 将 flow[..., 0] 和 flow[..., 1] 映射到 [-bound, bound]
+    # 并归一化到 [0, 255]
+    def normalize_flow(flow_component, bound):
+        # 限制光流值在 [-bound, bound] 范围内
+        flow_component = np.clip(flow_component, -bound, bound)
+        # 将范围映射到 [0, 255]
+        flow_norm = cv2.normalize(flow_component, None, 0, 255, cv2.NORM_MINMAX)
+        return flow_norm.astype(np.uint8)
 
-    # 将 u 和 v 归一化并转换为灰度图
-    u_norm = cv2.normalize(u, None, 0, 255, cv2.NORM_MINMAX)
-    v_norm = cv2.normalize(v, None, 0, 255, cv2.NORM_MINMAX)
-    gray_u = u_norm.astype(np.uint8)
-    gray_v = v_norm.astype(np.uint8)
+    # 归一化光流分量
+    gray_x_flow = normalize_flow(flow[..., 0], bound)
+    gray_y_flow = normalize_flow(flow[..., 1], bound)
+
     # 保存为图像文件
-    cv2.imwrite(os.path.join(savepath_uv, f"flow_x_{i:05d}.jpg"), gray_u)
-    cv2.imwrite(os.path.join(savepath_uv, f"flow_y_{i:05d}.jpg"), gray_v)
+    cv2.imwrite(os.path.join(savepath_xy, f"flow_x_{i:05d}.jpg"), gray_x_flow)
+    cv2.imwrite(os.path.join(savepath_xy, f"flow_y_{i:05d}.jpg"), gray_y_flow)
 
 
 # def save_flow_to_image(flow, paths, sub_name, vid_name, i):

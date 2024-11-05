@@ -18,5 +18,6 @@ casme_sq:
   RECEPTIVE_FILED: 15 # should be odd
   face_detector_model_path : "/kaggle/input/dlib-model/mmod_human_face_detector.dat"  # 人脸检测模型
   landmark_predictor_model_path: "/kaggle/input/dlib-model/shape_predictor_68_face_landmarks.dat"
+  retinaface_face_detector_model_path: "/kaggle/input/retinaface-model/retinaface_Resnet50_Final.pth"
 
 
