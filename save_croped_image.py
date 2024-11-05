@@ -1,8 +1,5 @@
 import os
-import shutil
 import glob
-import natsort
-import dlib
 import cv2
 from tqdm import tqdm
 from pathlib import Path
