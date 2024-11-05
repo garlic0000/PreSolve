@@ -62,14 +62,14 @@ def crop_images(opt):
 
     """
     CASME_sq_rawpic_root_path = opt["CASME_sq_rawpic_root_path"]
-    rawpic_crop_root_path = opt["rawpic_crop_root_path"]
+    crop_root_path = opt["crop_root_path"]
     print(f'dataset: {opt["dataset"]}')
     face_det_model_path = opt.get("retinaface_face_detector_model_path")
     face_detector = FaceDetector(face_det_model_path)
     sum_count = get_rawpic_count(CASME_sq_rawpic_root_path)
     print("rawpic count = ", sum_count)
-    if not os.path.exists(rawpic_crop_root_path):
-        os.makedirs(rawpic_crop_root_path)
+    if not os.path.exists(crop_root_path):
+        os.makedirs(crop_root_path)
 
     with tqdm(total=sum_count) as tq:
         for sub_item in Path(CASME_sq_rawpic_root_path).iterdir():
@@ -89,7 +89,7 @@ def crop_images(opt):
                 s_name = "casme_0{}".format(sub_item.name[1:])
                 v_name = "casme_0{}".format(type_item.name[0:7])
                 new_dir_path = os.path.join(
-                    rawpic_crop_root_path, s_name, v_name)
+                    crop_root_path, s_name, v_name)
                 if not os.path.exists(new_dir_path):
                     os.makedirs(new_dir_path)
 
