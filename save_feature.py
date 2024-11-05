@@ -85,9 +85,12 @@ def feature(opt):
                              for index in range(int(len(row) // 2))])
 
                         # try:
-                        # 这段可能有问题
+                        # 源代码
+                        # ior_feature_list = calculate_roi_freature_list(
+                        #     flow_x_y, landmarks, radius=5)
+                        # 进行修改
                         ior_feature_list = calculate_roi_freature_list(
-                            flow_x_y, landmarks, radius=5)
+                            flow_x_y, landmarks, radius=4)
                         ior_feature_list_sequence.append(
                             np.stack(ior_feature_list, axis=0))
                         tq.update()

@@ -76,9 +76,24 @@ def get_rois(mat, landmarks, indices, horizontal_bound=3, vertical_bound=3):
         y = landmark[1].item()
         roi_list.append(mat[y - vertical_bound: y + vertical_bound + 1,
                         x - horizontal_bound: x + horizontal_bound + 1, :])
-    # 测试代码
-    for idx, roi in enumerate(roi_list):
-        print(f"ROI {idx} shape: {roi.shape}")
+    # # 测试代码
+    # for idx, roi in enumerate(roi_list):
+    #     print(f"ROI {idx} shape: {roi.shape}")
+    # """
+    # ROI 0 shape: (11, 11, 2)
+    # ROI 1 shape: (11, 11, 2)
+    # ROI 2 shape: (11, 11, 2)
+    # ROI 3 shape: (11, 11, 2)
+    # ROI 4 shape: (11, 11, 2)
+    # ROI 5 shape: (11, 11, 2)
+    # ROI 6 shape: (11, 11, 2)
+    # ROI 7 shape: (11, 11, 2)
+    # ROI 8 shape: (11, 11, 2)
+    # ROI 9 shape: (11, 11, 2)
+    # ROI 10 shape: (11, 11, 2)
+    # ROI 11 shape: (9, 11, 2)
+    # ValueError: all input arrays must have the same shape
+    # """
     return np.stack(roi_list, axis=0)
 
 
