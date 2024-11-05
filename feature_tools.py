@@ -76,6 +76,9 @@ def get_rois(mat, landmarks, indices, horizontal_bound=3, vertical_bound=3):
         y = landmark[1].item()
         roi_list.append(mat[y - vertical_bound: y + vertical_bound + 1,
                         x - horizontal_bound: x + horizontal_bound + 1, :])
+    # 测试代码
+    for idx, roi in enumerate(roi_list):
+        print(f"ROI {idx} shape: {roi.shape}")
     return np.stack(roi_list, axis=0)
 
 
